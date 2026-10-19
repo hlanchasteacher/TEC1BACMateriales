@@ -63,36 +63,23 @@
         .highlight { background-color: #fffbeb; border-left: 4px solid var(--accent-color); padding: 1rem; margin: 1rem 0; border-radius: 0 8px 8px 0; }
 
         /* Botones */
-        .btn { display: inline-block; background-color: var(--secondary-color); color: white; padding: 0.6rem 1.2rem; text-decoration: none; border-radius: 6px; font-weight: bold; margin-top: 0.5rem; transition: background 0.2s; border: none; cursor: pointer; font-size: 1rem; }
+        .btn { display: inline-block; background-color: var(--secondary-color); color: white; padding: 0.8rem 1.5rem; text-decoration: none; border-radius: 6px; font-weight: bold; margin-top: 0.5rem; transition: background 0.2s; border: none; cursor: pointer; font-size: 1rem; text-align: center; }
         .btn:hover { background-color: var(--primary-color); }
-        .btn-print { background-color: #10b981; margin-bottom: 1rem; }
+        .btn-download { background-color: var(--group-color); width: 100%; display: block; margin-top: 1rem;}
+        .btn-download:hover { background-color: #059669; }
 
-        /* Tablas y Formularios (Plantillas) */
-        .template-box { border: 2px dashed #cbd5e1; padding: 2rem; border-radius: 12px; background-color: #f8fafc; margin-bottom: 2rem; }
-        .form-group { margin-bottom: 1rem; }
-        .form-group label { display: block; font-weight: bold; margin-bottom: 0.5rem; color: var(--primary-color); }
-        .form-group input[type="text"], .form-group textarea { width: 100%; padding: 0.8rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem; background: white; }
-        .form-group textarea { resize: vertical; min-height: 100px; }
-        
+        /* Tarjetas de Plantillas */
+        .template-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+        .template-card { background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; }
+        .template-card h3 { color: var(--primary-color); margin-bottom: 0.5rem; font-size: 1.3rem; }
+        .template-card p { color: #64748b; margin-bottom: 1rem; font-size: 0.95rem; }
+        .template-card ul { margin-left: 1.2rem; margin-bottom: 1.5rem; font-size: 0.9rem; color: #334155; line-height: 1.5;}
+        .template-icon { font-size: 2.5rem; margin-bottom: 1rem; text-align: center; }
+
+        /* Tabla Rúbrica */
         table { width: 100%; border-collapse: collapse; margin-top: 1rem; background: white; }
         th, td { padding: 0.8rem; text-align: left; border: 1px solid #cbd5e1; vertical-align: top; }
         th { background-color: var(--bg-color); color: var(--primary-color); }
-
-        /* Apuntes */
-        .apunte-card { background: white; border-left: 4px solid var(--secondary-color); padding: 1.5rem; margin-bottom: 1.5rem; border-radius: 0 8px 8px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .apunte-card h3 { color: var(--secondary-color); margin-bottom: 1rem; }
-        .apunte-card ul { margin-left: 1.5rem; margin-bottom: 1rem; line-height: 1.6; }
-        .apunte-card p { line-height: 1.6; margin-bottom: 1rem; }
-
-        /* Impresión */
-        @media print {
-            body { background: white; display: block; }
-            header, nav.sidebar, .progress-container, .no-print { display: none !important; }
-            .container { display: block; padding: 0; margin: 0; }
-            section { box-shadow: none; padding: 0; border: none; }
-            .template-box { border: 1px solid #000; padding: 1rem; }
-            .form-group input, .form-group textarea { border: none; border-bottom: 1px solid #000; border-radius: 0; padding: 0.2rem; }
-        }
 
         @media (max-width: 900px) {
             .container { flex-direction: column; padding: 1rem; }
@@ -116,15 +103,16 @@
         <nav class="sidebar">
             <h3>Menú Principal</h3>
             <ul>
-                <li><a onclick="showView('sesiones')" id="nav-sesiones" class="active">📅 Las 8 Sesiones</a></li>
-                <li><a onclick="showView('apuntes')" id="nav-apuntes">📖 Apuntes (Pág. 41-43)</a></li>
-                <li><a onclick="showView('plantillas')" id="nav-plantillas">📝 Plantillas de Trabajo</a></li>
+                <li><a onclick="showView('sesiones')" id="nav-sesiones" class="active">📅 Las 7 Sesiones</a></li>
+                <li><a href="apuntes.pdf" target="_blank">📖 Apuntes (Pág. 41-43) ↗</a></li>
+                <li><a onclick="showView('plantillas')" id="nav-plantillas">📥 Descargar Plantillas</a></li>
             </ul>
             <div class="nav-divider"></div>
             <h3>Índice Rápido</h3>
             <ul>
                 <li><a href="#sesion1" onclick="showView('sesiones')">Sesión 1: Reto</a></li>
                 <li><a href="#sesion4" onclick="showView('sesiones')">Sesión 4: Borrador</a></li>
+                <li><a href="#sesion5" onclick="showView('sesiones')">Sesión 5: Árbol Digital</a></li>
                 <li><a href="#sesion7" onclick="showView('sesiones')">Sesión 7: Test</a></li>
                 <li><a href="#rubrica" onclick="showView('sesiones')">📝 Rúbrica de Notas</a></li>
             </ul>
@@ -140,8 +128,9 @@
                     <div class="highlight">
                         <strong>Instrucciones iniciales:</strong>
                         <ul>
-                            <li>Formad grupos de 3-4 personas.</li>
+                            <li>Formad grupos de 3-4 personas para investigar (Sesiones 1 a 3).</li>
                             <li>Elegid un Sector Industrial: Aeroespacial, Deportivo, Doméstico, Sanitario o Construcción.</li>
+                            <li><strong>IMPORTANTE:</strong> A partir de la Sesión 4, aunque compartáis datos en grupo, <strong>todos los entregables son individuales</strong>.</li>
                         </ul>
                     </div>
                 </section>
@@ -165,15 +154,15 @@
                     <ul class="task-list">
                         <li>
                             <input type="checkbox" id="t2-1" class="task-checkbox">
-                            <label for="t2-1"><strong>Investigación:</strong> Coge el producto que te ha tocado. Mira de qué material está hecho actualmente.</label>
+                            <label for="t2-1"><strong>Descarga:</strong> Ve a la pestaña "Descargar Plantillas" y hazte con la <strong>Plantilla A</strong>.</label>
                         </li>
                         <li>
                             <input type="checkbox" id="t2-2" class="task-checkbox">
-                            <label for="t2-2"><strong>Propiedades:</strong> Rellena la <a onclick="showView('plantillas')" style="color:#3b82f6; cursor:pointer; text-decoration:underline;">Plantilla A</a> indicando qué propiedades necesita tu producto. Consulta los <a onclick="showView('apuntes')" style="color:#3b82f6; cursor:pointer; text-decoration:underline;">Apuntes</a>.</label>
+                            <label for="t2-2"><strong>Investigación:</strong> Recrea la Plantilla A en Word/Docs. Investiga de qué material está hecho tu producto y qué propiedades necesita (Consulta los <a href="apuntes.pdf" target="_blank" style="color:#3b82f6; font-weight:bold;">Apuntes PDF</a>).</label>
                         </li>
                         <li>
                             <input type="checkbox" id="t2-3" class="task-checkbox">
-                            <label for="t2-3"><strong>Entrega:</strong> Imprime o guarda tu Plantilla A en PDF y súbela al aula virtual.</label>
+                            <label for="t2-3"><strong>Entrega:</strong> Exporta tu documento a PDF y súbelo al aula virtual.</label>
                         </li>
                     </ul>
                 </section>
@@ -183,7 +172,7 @@
                     <ul class="task-list">
                         <li>
                             <input type="checkbox" id="t3-1" class="task-checkbox">
-                            <label for="t3-1">Rellena la <a onclick="showView('plantillas')" style="color:#3b82f6; cursor:pointer; text-decoration:underline;">Plantilla B</a> respondiendo a los 8 factores (Pág. 55 del libro).</label>
+                            <label for="t3-1">Descarga la <strong>Plantilla B</strong>, recréala en Word y responde a los 8 factores para tu producto.</label>
                         </li>
                         <li>
                             <input type="checkbox" id="t3-2" class="task-checkbox">
@@ -193,29 +182,31 @@
                 </section>
 
                 <section id="sesion4">
-                    <h2>Sesión 4: El Plano del Laberinto <span class="badge badge-grupal">👥 Grupal</span></h2>
+                    <h2>Sesión 4: El Plano del Laberinto <span class="badge badge-individual">👤 Individual</span></h2>
+                    <p>Pon en común los datos con tu equipo para entender el sector, pero el diseño del árbol es tuyo.</p>
                     <ul class="task-list">
                         <li>
                             <input type="checkbox" id="t4-1" class="task-checkbox">
-                            <label for="t4-1"><strong>Puesta en común:</strong> Juntad todos los productos. Diseñad un árbol con preguntas cerradas (Sí/No).</label>
+                            <label for="t4-1"><strong>Puesta en común:</strong> Compartid vuestros análisis (Sesiones 2 y 3) con el equipo para ver todo el abanico de materiales del sector.</label>
                         </li>
                         <li>
                             <input type="checkbox" id="t4-2" class="task-checkbox">
-                            <label for="t4-2"><strong>Entrega Individual:</strong> Cada alumno dibuja la rama de la que es responsable y la sube al aula virtual.</label>
+                            <label for="t4-2"><strong>Borrador Individual:</strong> Diseña en papel TU PROPIO Árbol de Decisión. Debe incluir al menos 5 productos diferentes (el tuyo y los de tus compañeros).</label>
                         </li>
                     </ul>
                 </section>
 
                 <section id="sesion5">
-                    <h2>Sesión 5: Digitalización <span class="badge badge-grupal">👥 Grupal</span></h2>
+                    <h2>Sesión 5: Digitalización del Árbol <span class="badge badge-individual">👤 Individual</span></h2>
+                    <p>El entregable de esta sesión es estrictamente individual.</p>
                     <ul class="task-list">
                         <li>
                             <input type="checkbox" id="t5-1" class="task-checkbox">
-                            <label for="t5-1">Abrid <strong>Draw.io</strong> o <strong>Dia</strong> y pasad vuestro árbol a digital.</label>
+                            <label for="t5-1">Abrid <strong>Draw.io</strong> o <strong>Dia</strong> y pasad vuestro borrador de la Sesión 4 a digital. (No podéis usar el archivo de un compañero).</label>
                         </li>
                         <li>
                             <input type="checkbox" id="t5-2" class="task-checkbox">
-                            <label for="t5-2"><strong>Entrega Grupal:</strong> Exportad a PDF/PNG y subidlo al aula virtual.</label>
+                            <label for="t5-2"><strong>Entrega Individual:</strong> Exportad a PDF/PNG y subidlo al aula virtual con vuestro nombre.</label>
                         </li>
                     </ul>
                 </section>
@@ -225,179 +216,99 @@
                     <ul class="task-list">
                         <li>
                             <input type="checkbox" id="t6-1" class="task-checkbox">
-                            <label for="t6-1">Rellena la <a onclick="showView('plantillas')" style="color:#3b82f6; cursor:pointer; text-decoration:underline;">Plantilla C (Ficha Técnica)</a> para el material que te asigne tu grupo.</label>
+                            <label for="t6-1">Descarga la <strong>Plantilla C (Ficha Técnica)</strong>, recréala en Word y complétala para el material principal de tu producto.</label>
                         </li>
                     </ul>
                 </section>
 
                 <section id="sesion7">
                     <h2>Sesión 7: El Test del Sistema Experto <span class="badge badge-individual">👤 EVALUACIÓN</span></h2>
-                    <div class="highlight"><strong>¡ATENCIÓN! Prueba individual para nota.</strong></div>
+                    <div class="highlight"><strong>¡ATENCIÓN! Prueba individual final.</strong></div>
                     <ul class="task-list">
                         <li>
                             <input type="checkbox" id="t7-1" class="task-checkbox">
-                            <label for="t7-1">Usa el árbol de tu grupo para analizar un <strong>"Producto Sorpresa"</strong> dado por el profesor.</label>
+                            <label for="t7-1">Usa TU Árbol de Decisión (Sesión 5) para analizar un <strong>"Producto Sorpresa"</strong> dado por el profesor.</label>
                         </li>
                         <li>
                             <input type="checkbox" id="t7-2" class="task-checkbox">
-                            <label for="t7-2">Escribe el camino seguido, el material final y una reflexión (¿Tiene fallos el árbol?). Entrega individual.</label>
-                        </li>
-                    </ul>
-                </section>
-
-                <section id="sesion8">
-                    <h2>Sesión 8: Defensa y Feedback <span class="badge badge-grupal">👥</span> + <span class="badge badge-individual">👤</span></h2>
-                    <ul class="task-list">
-                        <li>
-                            <input type="checkbox" id="t8-1" class="task-checkbox">
-                            <label for="t8-1"><strong>Presentación (5 min) y Entrevista Individual (3 min).</strong></label>
+                            <label for="t7-2">Escribe el camino seguido, el material final y una reflexión (¿Tiene fallos tu árbol?). Entrega individual en Word/PDF.</label>
                         </li>
                     </ul>
                 </section>
 
                 <section id="rubrica">
                     <h2>📝 Rúbrica de Evaluación</h2>
+                    <p style="margin-bottom: 1rem; color: #64748b;">La nota de este proyecto es <strong>100% individual</strong>. No hay presentación ni entrevista final.</p>
                     <table>
-                        <thead><tr><th>Parte</th><th>%</th><th>¿Qué se evalúa?</th></tr></thead>
+                        <thead><tr><th>Entregable Individual</th><th>% de la Nota</th><th>¿Qué se evalúa?</th></tr></thead>
                         <tbody>
-                            <tr><td><strong>Nota Grupal</strong></td><td>40%</td><td>Árbol digitalizado, lógica y presentación.</td></tr>
-                            <tr><td rowspan="4"><strong>Nota Individual</strong></td><td>60%</td><td>Plantillas A, B, C y Rama individual (40%) + Test Sorpresa (20%).</td></tr>
-                            <tr><td colspan="2" style="background-color: #fef2f2; color: #991b1b;"><strong>⚠️ Si la coevaluación del equipo es < 3/5, tu nota se multiplica por 0.8.</strong></td></tr>
+                            <tr><td><strong>Plantilla A</strong></td><td>20%</td><td>Análisis de propiedades del producto asignado.</td></tr>
+                            <tr><td><strong>Plantilla B</strong></td><td>20%</td><td>Aplicación de los 8 factores de selección.</td></tr>
+                            <tr><td><strong>Árbol Digital Individual</strong></td><td>30%</td><td>Lógica, claridad y digitalización del Árbol de Decisión.</td></tr>
+                            <tr><td><strong>Plantilla C</strong></td><td>15%</td><td>Ficha técnica del material principal.</td></tr>
+                            <tr><td><strong>Test Sorpresa</strong></td><td>15%</td><td>Resolución práctica usando el árbol propio.</td></tr>
                         </tbody>
                     </table>
                 </section>
             </div>
 
-            <!-- VISTA 2: APUNTES (Páginas 41-43) -->
-            <div id="view-apuntes" class="view-section">
-                <section>
-                    <h2>📖 Apuntes: Propiedades de los Materiales</h2>
-                    <p style="margin-bottom: 1rem; color: #64748b;">Basado en las páginas 41 a 43 de tu libro de texto.</p>
-
-                    <div class="apunte-card">
-                        <h3>1. Propiedades Mecánicas</h3>
-                        <p>Son las propiedades que presentan los materiales cuando son sometidos a esfuerzos. Los distintos tipos de esfuerzos son: <strong>compresión, tracción, flexión, torsión y cortadura</strong>.</p>
-                        <ul>
-                            <li><strong>Dureza:</strong> Oposición de un material a ser rayado o perforado. (Ej. Acero y diamante son duros; yeso y talco son blandos).</li>
-                            <li><strong>Tenacidad:</strong> Cantidad de energía que absorbe un material antes de romperse. Los que resisten golpes son <em>tenaces</em>; los que se rompen, <em>frágiles</em>.</li>
-                            <li><strong>Resistencia mecánica:</strong> Capacidad de resistir esfuerzos sin deformarse permanentemente o romperse.</li>
-                            <li><strong>Deformabilidad:</strong> Capacidad de deformarse. Puede ser <strong>elástica</strong> (recupera su forma al cesar la fuerza, cumple la Ley de Hooke: σ = εE) o <strong>plástica</strong> (permanece deformado).</li>
-                            <li><strong>Ductilidad:</strong> Capacidad de extenderse en hilos (ej. cobre, nailon).</li>
-                            <li><strong>Maleabilidad:</strong> Capacidad de extenderse en láminas (ej. estaño, oro).</li>
-                            <li><strong>Fatiga:</strong> Capacidad de fracturarse ante esfuerzos repetitivos, aunque estén por debajo de su tensión de ruptura.</li>
-                        </ul>
-                    </div>
-
-                    <div class="apunte-card">
-                        <h3>2. Propiedades Físico-Químicas</h3>
-                        <ul>
-                            <li><strong>Resistencia eléctrica (R):</strong> Oposición al paso de la corriente.</li>
-                            <li><strong>Resistividad (ρ):</strong> Resistencia específica de un material. Aumenta con la temperatura y las impurezas.</li>
-                            <li><strong>Conductividad térmica:</strong> Capacidad para permitir el paso del calor. Es la inversa de la resistividad (σ = 1/ρ).</li>
-                            <li><strong>Dilatación térmica:</strong> Aumento de tamaño al aumentar la temperatura. Fórmula: L = L₀(1 + αΔT). Existen dilataciones lineal, superficial (β=2α) y volumétrica (γ=3α).</li>
-                            <li><strong>Calor específico (cₑ):</strong> Cantidad de calor para aumentar la temperatura sin cambiar de fase. Fórmula: ΔQ = m · cₑ · ΔT.</li>
-                            <li><strong>Densidad (ρ):</strong> Relación masa/volumen (ρ = m/V).</li>
-                            <li><strong>Puntos de fusión, ebullición y congelación:</strong> Temperaturas a las que cambia de estado.</li>
-                            <li><strong>Comportamiento magnético:</strong> Pueden ser <em>diamagnéticos</em> (se oponen), <em>paramagnéticos</em> (se suman débilmente) o <em>ferromagnéticos</em> (campo magnético fuerte).</li>
-                            <li><strong>Resistencia a la oxidación:</strong> Resistencia a reaccionar con el oxígeno. En ambientes húmedos se produce <em>corrosión</em>.</li>
-                        </ul>
-                    </div>
-
-                    <div class="apunte-card">
-                        <h3>3. Propiedades Sensoriales</h3>
-                        <p>Relacionadas con los sentidos (color, tacto, textura, brillo). Según su comportamiento ante la luz, pueden ser:</p>
-                        <ul>
-                            <li><strong>Transparentes:</strong> Dejan pasar la luz y ver a través de ellos.</li>
-                            <li><strong>Translúcidos:</strong> Dejan pasar la luz pero no ver a través de ellos.</li>
-                            <li><strong>Opacos:</strong> No dejan pasar la luz.</li>
-                        </ul>
-                    </div>
-                </section>
-            </div>
-
-            <!-- VISTA 3: PLANTILLAS -->
+            <!-- VISTA 2: PLANTILLAS DESCARGABLES -->
             <div id="view-plantillas" class="view-section">
                 <section>
-                    <h2>📝 Plantillas de Trabajo</h2>
-                    <p class="no-print" style="margin-bottom: 1.5rem;">Rellena los campos directamente en la web. Cuando termines, pulsa el botón verde para imprimir o guardar como PDF y súbelo a la plataforma.</p>
+                    <h2>📥 Descarga de Plantillas</h2>
+                    <p style="margin-bottom: 1rem; color: #64748b; font-size: 1.1rem;">
+                        Descarga los modelos en PDF. Tu tarea es abrirlos, <strong>recrear la estructura en Microsoft Word</strong> (o Google Docs) y completarlos digitalmente. Una vez terminados, expórtalos de nuevo a PDF y súbelos al aula virtual.
+                    </p>
 
-                    <!-- PLANTILLA A -->
-                    <div class="template-box" id="plantilla-a">
-                        <h3 style="color: var(--primary-color); margin-bottom: 1rem;">PLANTILLA A: Análisis de Producto</h3>
-                        <div class="form-group">
-                            <label>Nombre del Alumno/a:</label>
-                            <input type="text" placeholder="Escribe tu nombre aquí...">
+                    <div class="template-grid">
+                        <!-- Tarjeta Plantilla A -->
+                        <div class="template-card">
+                            <div>
+                                <div class="template-icon">📄</div>
+                                <h3>Plantilla A</h3>
+                                <p>Análisis de Producto.</p>
+                                <ul>
+                                    <li>Datos del alumno y producto.</li>
+                                    <li>Material actual del producto.</li>
+                                    <li>Tabla de Propiedades Mecánicas.</li>
+                                    <li>Tabla de Propiedades Físico-Químicas.</li>
+                                    <li>Breve justificación de su uso.</li>
+                                </ul>
+                            </div>
+                            <a href="plantilla_A.pdf" download class="btn btn-download">⬇️ Descargar Plantilla A</a>
                         </div>
-                        <div class="form-group">
-                            <label>Nombre del Producto a Analizar:</label>
-                            <input type="text" placeholder="Ej. Casco de bicicleta, Raqueta de tenis...">
-                        </div>
-                        <div class="form-group">
-                            <label>Material del que está hecho actualmente:</label>
-                            <input type="text" placeholder="Ej. Poliestireno expandido y fibra de carbono...">
-                        </div>
-                        <table>
-                            <tr>
-                                <th style="width: 50%;">Propiedades Mecánicas necesarias</th>
-                                <th style="width: 50%;">Propiedades Físico-Químicas necesarias</th>
-                            </tr>
-                            <tr>
-                                <td><textarea placeholder="¿Necesita dureza, tenacidad, ser flexible, resistir tracción...?"></textarea></td>
-                                <td><textarea placeholder="¿Debe ser aislante eléctrico, resistente al calor, no oxidarse...?"></textarea></td>
-                            </tr>
-                        </table>
-                        <button class="btn btn-print no-print" onclick="window.print()">🖨️ Imprimir / Guardar PDF (Plantilla A)</button>
-                    </div>
 
-                    <!-- PLANTILLA B -->
-                    <div class="template-box" id="plantilla-b" style="margin-top: 3rem;">
-                        <h3 style="color: var(--primary-color); margin-bottom: 1rem;">PLANTILLA B: Los 8 Factores de Selección</h3>
-                        <div class="form-group">
-                            <label>Nombre del Alumno/a:</label>
-                            <input type="text" placeholder="Escribe tu nombre aquí...">
+                        <!-- Tarjeta Plantilla B -->
+                        <div class="template-card">
+                            <div>
+                                <div class="template-icon">⚙️</div>
+                                <h3>Plantilla B</h3>
+                                <p>Los 8 Factores de Selección.</p>
+                                <ul>
+                                    <li>Datos del alumno.</li>
+                                    <li>Tabla de 8 filas con los factores: Físicos, Mecánicos, Procesado, Tiempo, Económicos, Legales, Ambiental y Otros.</li>
+                                    <li>Espacio para responder cómo afecta cada factor a tu producto.</li>
+                                </ul>
+                            </div>
+                            <a href="plantilla_B.pdf" download class="btn btn-download">⬇️ Descargar Plantilla B</a>
                         </div>
-                        <table>
-                            <tr><th>Factor (Pág. 55)</th><th>Pregunta clave a responder para tu producto</th></tr>
-                            <tr><td><strong>1. Físicos</strong></td><td><textarea placeholder="Tamaño, peso y forma..."></textarea></td></tr>
-                            <tr><td><strong>2. Mecánicos</strong></td><td><textarea placeholder="¿A qué esfuerzos se someterá? (tracción, compresión...)"></textarea></td></tr>
-                            <tr><td><strong>3. Procesado</strong></td><td><textarea placeholder="¿Cómo se fabricará? (moldeado, mecanizado...)"></textarea></td></tr>
-                            <tr><td><strong>4. Tiempo</strong></td><td><textarea placeholder="¿Cuánto tiempo debe durar el material?"></textarea></td></tr>
-                            <tr><td><strong>5. Económicos</strong></td><td><textarea placeholder="¿Es un producto de lujo o debe ser barato?"></textarea></td></tr>
-                            <tr><td><strong>6. Legales</strong></td><td><textarea placeholder="¿Hay normativas? (ej. no tóxico, ignífugo)"></textarea></td></tr>
-                            <tr><td><strong>7. Impacto Ambiental</strong></td><td><textarea placeholder="¿Debe ser reciclable, biodegradable, de bajo consumo energético?"></textarea></td></tr>
-                            <tr><td><strong>8. Otros</strong></td><td><textarea placeholder="Color, textura, brillo..."></textarea></td></tr>
-                        </table>
-                        <button class="btn btn-print no-print" onclick="window.print()">🖨️ Imprimir / Guardar PDF (Plantilla B)</button>
-                    </div>
 
-                    <!-- PLANTILLA C -->
-                    <div class="template-box" id="plantilla-c" style="margin-top: 3rem;">
-                        <h3 style="color: var(--primary-color); margin-bottom: 1rem;">PLANTILLA C: Ficha Técnica de Material</h3>
-                        <div class="form-group">
-                            <label>Nombre del Alumno/a:</label>
-                            <input type="text" placeholder="Escribe tu nombre aquí...">
+                        <!-- Tarjeta Plantilla C -->
+                        <div class="template-card">
+                            <div>
+                                <div class="template-icon">📚</div>
+                                <h3>Plantilla C</h3>
+                                <p>Ficha Técnica de Material.</p>
+                                <ul>
+                                    <li>Datos del alumno y nombre del material.</li>
+                                    <li>Familia a la que pertenece.</li>
+                                    <li>Propiedades clave (Mecánicas/Físicas).</li>
+                                    <li>Impacto ambiental y reciclaje.</li>
+                                    <li>3 usos típicos en el sector.</li>
+                                </ul>
+                            </div>
+                            <a href="plantilla_C.pdf" download class="btn btn-download">⬇️ Descargar Plantilla C</a>
                         </div>
-                        <div class="form-group">
-                            <label>Nombre del Material:</label>
-                            <input type="text" placeholder="Ej. Aluminio, PLA, Fibra de carbono...">
-                        </div>
-                        <div class="form-group">
-                            <label>Familia a la que pertenece:</label>
-                            <input type="text" placeholder="Metálico, Cerámico, Polímero, Híbrido...">
-                        </div>
-                        <div class="form-group">
-                            <label>Propiedades Clave (Mecánicas y Físicas):</label>
-                            <textarea placeholder="Ej. Alta resistencia mecánica, ligero, buen conductor..."></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Impacto Ambiental y Reciclaje:</label>
-                            <textarea placeholder="¿Es reciclable? ¿Su obtención es contaminante?"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>3 Usos típicos en tu sector industrial:</label>
-                            <textarea placeholder="1. ... 2. ... 3. ..."></textarea>
-                        </div>
-                        <button class="btn btn-print no-print" onclick="window.print()">🖨️ Imprimir / Guardar PDF (Plantilla C)</button>
                     </div>
                 </section>
             </div>
@@ -407,17 +318,12 @@
     <script>
         // --- LÓGICA DE NAVEGACIÓN ENTRE VISTAS ---
         function showView(viewId) {
-            // Ocultar todas las vistas
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-            // Quitar clase active del menú
             document.querySelectorAll('nav.sidebar a').forEach(el => el.classList.remove('active'));
             
-            // Mostrar la vista seleccionada
             document.getElementById('view-' + viewId).classList.add('active');
-            // Marcar el menú como activo
             document.getElementById('nav-' + viewId).classList.add('active');
             
-            // Hacer scroll al principio
             window.scrollTo(0, 0);
         }
 
