@@ -61,9 +61,16 @@
         .task-list input:checked + label { text-decoration: line-through; color: #9ca3af; }
 
         .highlight { background-color: #fffbeb; border-left: 4px solid var(--accent-color); padding: 1rem; margin: 1rem 0; border-radius: 0 8px 8px 0; }
-        .questions-box { background-color: #f8fafc; border: 1px solid #cbd5e1; padding: 1.5rem; border-radius: 8px; margin-top: 1rem; }
-        .questions-box ol { margin-left: 1.5rem; line-height: 1.8; }
-        .questions-box li { margin-bottom: 0.5rem; }
+        
+        /* Cajas de Instrucciones y Ejemplos */
+        .instruction-box { background-color: #f8fafc; border: 1px solid #cbd5e1; padding: 1.5rem; border-radius: 8px; margin-top: 1rem; margin-bottom: 1.5rem; }
+        .instruction-box h3 { color: var(--primary-color); font-size: 1.1rem; margin-bottom: 0.8rem; }
+        .instruction-box ol { margin-left: 1.5rem; line-height: 1.8; margin-bottom: 1rem;}
+        .instruction-box li { margin-bottom: 0.5rem; }
+        
+        .example-box { background-color: #e0f2fe; border: 1px solid #7dd3fc; padding: 1.5rem; border-radius: 8px; margin-top: 1rem; font-family: monospace; font-size: 0.95rem; line-height: 1.6;}
+        .example-box strong { color: #0369a1; }
+        .arrow { color: #0284c7; font-weight: bold; }
 
         /* Botones */
         .btn { display: inline-block; background-color: var(--secondary-color); color: white; padding: 0.8rem 1.5rem; text-decoration: none; border-radius: 6px; font-weight: bold; margin-top: 0.5rem; transition: background 0.2s; border: none; cursor: pointer; font-size: 1rem; text-align: center; }
@@ -130,40 +137,45 @@
                     <h2>Bienvenidos a la División de I+D+i</h2>
                     <p>Vuestra misión como equipo de ingeniería es crear un <strong>Sistema Experto (un Árbol de Decisión)</strong> que permita a otros diseñadores elegir el material perfecto para sus productos.</p>
                     <div class="highlight">
-                        <strong>Instrucciones iniciales:</strong>
-                        <ul>
-                            <li>Formad grupos de 3-4 personas para investigar (Sesiones 2 a 4).</li>
-                            <li>Elegid un Sector Industrial: Aeroespacial, Deportivo, Doméstico, Sanitario o Construcción.</li>
-                            <li><strong>IMPORTANTE:</strong> Aunque os ayudéis entre vosotros, <strong>todos los entregables son estrictamente individuales</strong>.</li>
-                        </ul>
+                        <strong>Nota importante:</strong> Aunque os ayudéis entre vosotros, <strong>todos los entregables son estrictamente individuales</strong>.
                     </div>
                 </section>
 
-                <!-- NUEVA SESIÓN 1 -->
+                <!-- SESIÓN 1 -->
                 <section id="sesion1">
                     <h2>Sesión 1: Explorando el Catálogo de Materiales <span class="badge badge-individual">👤 Individual</span></h2>
-                    <p>Antes de empezar a diseñar, necesitas conocer qué materiales tienes disponibles. Abre el <a href="apuntes.pdf" target="_blank" style="color:#3b82f6; font-weight:bold;">PDF de Apuntes</a> y lee las secciones de los distintos tipos de materiales (Páginas 44 a 54 del libro).</p>
+                    <p>Antes de empezar a diseñar, necesitas conocer qué materiales tienes disponibles. Abre el <a href="apuntes.pdf" target="_blank" style="color:#3b82f6; font-weight:bold;">PDF de Apuntes</a> y busca la información necesaria para responder a las siguientes preguntas.</p>
                     
-                    <div class="questions-box">
-                        <strong>Responde a las siguientes preguntas en un documento de Word:</strong>
+                    <div class="instruction-box">
+                        <h3>Instrucciones de entrega:</h3>
+                        <p style="margin-bottom: 1rem;">Crea un documento de Word llamado <code>Respuestas_Sesión_1_TuNombre</code> y responde a las siguientes preguntas buscando en los apuntes:</p>
                         <ol>
-                            <li>¿Qué diferencia principal hay entre un metal férrico y uno no férrico? (Pág. 44)</li>
-                            <li>¿Por qué los materiales cerámicos son frágiles y buenos aislantes eléctricos? (Pág. 47)</li>
-                            <li>¿Cuál es la diferencia clave entre un polímero termoestable y uno termoplástico? (Pág. 50)</li>
-                            <li>¿Qué es un material híbrido y qué ventaja ofrece frente a sus componentes por separado? (Pág. 54)</li>
+                            <li>¿Qué diferencia principal hay entre un metal férrico y uno no férrico?</li>
+                            <li>¿Por qué los materiales cerámicos son frágiles y buenos aislantes eléctricos?</li>
+                            <li>¿Cuál es la diferencia clave entre un polímero termoestable y uno termoplástico?</li>
+                            <li>¿Qué es un material híbrido y qué ventaja ofrece frente a sus componentes por separado?</li>
                         </ol>
                     </div>
                     <ul class="task-list" style="margin-top: 1rem;">
                         <li>
                             <input type="checkbox" id="t1-1" class="task-checkbox">
-                            <label for="t1-1"><strong>Entrega:</strong> Guarda tus respuestas en PDF (con tu nombre) y súbelas al aula virtual.</label>
+                            <label for="t1-1"><strong>Entrega:</strong> Sube el archivo Word a la tarea de <strong>Teams</strong>.</label>
                         </li>
                     </ul>
                 </section>
 
-                <!-- SESIÓN 2 (Antigua 1) -->
+                <!-- SESIÓN 2 -->
                 <section id="sesion2">
                     <h2>Sesión 2: El Reto y Lluvia de Ideas <span class="badge badge-grupal">👥 Grupal</span></h2>
+                    
+                    <div class="highlight">
+                        <strong>Instrucciones de grupo:</strong>
+                        <ul>
+                            <li>Formad grupos de 3-4 personas para investigar (Sesiones 2 a 4).</li>
+                            <li>Elegid un Sector Industrial: Aeroespacial, Deportivo, Doméstico, Sanitario o Construcción.</li>
+                        </ul>
+                    </div>
+
                     <ul class="task-list">
                         <li>
                             <input type="checkbox" id="t2-1" class="task-checkbox">
@@ -176,7 +188,7 @@
                     </ul>
                 </section>
 
-                <!-- SESIÓN 3 (Antigua 2) -->
+                <!-- SESIÓN 3 -->
                 <section id="sesion3">
                     <h2>Sesión 3: Análisis de Producto <span class="badge badge-individual">👤 Individual</span></h2>
                     <ul class="task-list">
@@ -186,7 +198,7 @@
                         </li>
                         <li>
                             <input type="checkbox" id="t3-2" class="task-checkbox">
-                            <label for="t3-2"><strong>Investigación:</strong> Recrea la Plantilla A en Word. Investiga el material de tu producto y sus propiedades consultando <strong>específicamente las páginas 41 a 43</strong> de los apuntes (secciones 2.1, 2.2 y 2.3).</label>
+                            <label for="t3-2"><strong>Investigación:</strong> Recrea la Plantilla A en Word. Investiga el material de tu producto y sus propiedades consultando los apartados de "Propiedades mecánicas" y "Propiedades físico-químicas" en los apuntes.</label>
                         </li>
                         <li>
                             <input type="checkbox" id="t3-3" class="task-checkbox">
@@ -195,13 +207,13 @@
                     </ul>
                 </section>
 
-                <!-- SESIÓN 4 (Antigua 3) -->
+                <!-- SESIÓN 4 -->
                 <section id="sesion4">
                     <h2>Sesión 4: Los 8 Filtros de Selección <span class="badge badge-individual">👤 Individual</span></h2>
                     <ul class="task-list">
                         <li>
                             <input type="checkbox" id="t4-1" class="task-checkbox">
-                            <label for="t4-1">Genera la <strong>Plantilla B</strong>, recréala en Word y responde a los 8 factores. Debes consultar la <strong>página 55</strong> de los apuntes (Sección 7: Selección de materiales).</label>
+                            <label for="t4-1">Genera la <strong>Plantilla B</strong>, recréala en Word y responde a los 8 factores. Debes consultar el apartado "Selección de materiales" en los apuntes.</label>
                         </li>
                         <li>
                             <input type="checkbox" id="t4-2" class="task-checkbox">
@@ -210,10 +222,38 @@
                     </ul>
                 </section>
 
-                <!-- SESIÓN 5 (Antigua 4) -->
+                <!-- SESIÓN 5 (CON EXPLICACIÓN DETALLADA) -->
                 <section id="sesion5">
-                    <h2>Sesión 5: El Plano del Laberinto <span class="badge badge-individual">👤 Individual</span></h2>
-                    <p>Pon en común los datos con tu equipo para entender el sector, pero el diseño del árbol es tuyo.</p>
+                    <h2>Sesión 5: El Plano del Laberinto (Tu Árbol de Decisión) <span class="badge badge-individual">👤 Individual</span></h2>
+                    <p>Pon en común los datos con tu equipo para entender el sector, pero <strong>el diseño del árbol es tuyo</strong>. Un Árbol de Decisión es un diagrama de flujo que hace preguntas para llegar a un material concreto.</p>
+                    
+                    <div class="instruction-box">
+                        <h3>📋 ¿Cómo debe ser tu Árbol de Decisión? Sigue estos pasos:</h3>
+                        <ol>
+                            <li><strong>Empieza por el final:</strong> Haz una lista de los materiales finales a los que quieres llegar. Deben ser al menos 5 materiales diferentes (ej. Acero, Aluminio, PET, Vidrio, Fibra de carbono) que cubran los productos de tu grupo.</li>
+                            <li><strong>Define las preguntas clave:</strong> Mira las propiedades (Plantilla A) y los 8 factores (Plantilla B) que analizaste. Busca diferencias entre esos materiales. 
+                                <br><em>Ejemplo: ¿El PET es conductor? No. ¿El acero es conductor? Sí. ¡Esa es una pregunta clave!</em>
+                            </li>
+                            <li><strong>Construye de lo general a lo específico:</strong> La primera pregunta debe dividir todos los materiales en dos grandes grupos (ej. "¿Es un material metálico?"). A partir de ahí, las preguntas se van haciendo más concretas.</li>
+                            <li><strong>Formato visual:</strong> Usa rectángulos para las preguntas, rombos para las decisiones (Sí/No) y rectángulos con doble línea para los materiales finales.</li>
+                        </ol>
+                    </div>
+
+                    <div class="example-box">
+                        <strong>Ejemplo de cómo empezar tu árbol (no lo copies, es solo una idea):</strong><br><br>
+                        <strong>Pregunta inicial:</strong> ¿El producto necesita soportar altas temperaturas?<br>
+                        <span class="arrow">├── SÍ</span> <span class="arrow">➔</span> ¿Debe ser buen conductor eléctrico? <br>
+                        <span class="arrow">│</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">├── SÍ ➔</span> <strong>Material Metálico (Acero)</strong><br>
+                        <span class="arrow">│</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">└── NO ➔</span> <strong>Material Cerámico (Vitrocerámica)</strong><br>
+                        <span class="arrow">└── NO</span> <span class="arrow">➔</span> ¿Es flexible o deformable?<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">├── SÍ ➔</span> <strong>Polímero (Caucho)</strong><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">└── NO ➔</span> <strong>Polímero rígido (Baquelita)</strong>
+                    </div>
+
+                    <div class="highlight">
+                        <strong>Regla de oro:</strong> Tu árbol debe funcionar para los 5 productos de tu grupo. Si un compañero elige un producto nuevo y sigue tu árbol, ¡debe llegar al material correcto!
+                    </div>
+
                     <ul class="task-list">
                         <li>
                             <input type="checkbox" id="t5-1" class="task-checkbox">
@@ -221,19 +261,19 @@
                         </li>
                         <li>
                             <input type="checkbox" id="t5-2" class="task-checkbox">
-                            <label for="t5-2"><strong>Borrador Individual:</strong> Diseña en papel TU PROPIO Árbol de Decisión. Debe incluir al menos 5 productos diferentes (el tuyo y los de tus compañeros).</label>
+                            <label for="t5-2"><strong>Borrador Individual:</strong> Diseña en papel TU PROPIO Árbol de Decisión siguiendo las instrucciones de arriba.</label>
                         </li>
                     </ul>
                 </section>
 
-                <!-- SESIÓN 6 (Antigua 5) -->
+                <!-- SESIÓN 6 -->
                 <section id="sesion6">
                     <h2>Sesión 6: Digitalización del Árbol <span class="badge badge-individual">👤 Individual</span></h2>
-                    <p>El entregable de esta sesión es estrictamente individual.</p>
+                    <p>El entregable de esta sesión es estrictamente individual. Vamos a pasar tu borrador a limpio.</p>
                     <ul class="task-list">
                         <li>
                             <input type="checkbox" id="t6-1" class="task-checkbox">
-                            <label for="t6-1">Abrid <strong>Draw.io</strong> o <strong>Dia</strong> y pasad vuestro borrador de la Sesión 5 a digital.</label>
+                            <label for="t6-1">Abrid <strong>Draw.io</strong> o <strong>Dia</strong> y pasad vuestro borrador de la Sesión 5 a digital. Usad las formas geométricas adecuadas (rombos para preguntas, rectángulos para materiales).</label>
                         </li>
                         <li>
                             <input type="checkbox" id="t6-2" class="task-checkbox">
@@ -242,7 +282,7 @@
                     </ul>
                 </section>
 
-                <!-- SESIÓN 7 (Antigua 6) -->
+                <!-- SESIÓN 7 -->
                 <section id="sesion7">
                     <h2>Sesión 7: El Catálogo Técnico <span class="badge badge-individual">👤 Individual</span></h2>
                     <ul class="task-list">
@@ -253,7 +293,7 @@
                     </ul>
                 </section>
 
-                <!-- SESIÓN 8 (Antigua 7) -->
+                <!-- SESIÓN 8 -->
                 <section id="sesion8">
                     <h2>Sesión 8: El Test del Sistema Experto <span class="badge badge-individual">👤 EVALUACIÓN</span></h2>
                     <div class="highlight"><strong>¡ATENCIÓN! Prueba individual final.</strong></div>
@@ -276,8 +316,8 @@
                         <thead><tr><th>Entregable Individual</th><th>% de la Nota</th><th>¿Qué se evalúa?</th></tr></thead>
                         <tbody>
                             <tr><td><strong>Preguntas de Materiales (S1)</strong></td><td>15%</td><td>Comprensión lectora de los tipos de materiales.</td></tr>
-                            <tr><td><strong>Plantilla A (S3)</strong></td><td>15%</td><td>Análisis de propiedades del producto asignado (Pág 41-43).</td></tr>
-                            <tr><td><strong>Plantilla B (S4)</strong></td><td>15%</td><td>Aplicación de los 8 factores de selección (Pág 55).</td></tr>
+                            <tr><td><strong>Plantilla A (S3)</strong></td><td>15%</td><td>Análisis de propiedades del producto asignado.</td></tr>
+                            <tr><td><strong>Plantilla B (S4)</strong></td><td>15%</td><td>Aplicación de los 8 factores de selección.</td></tr>
                             <tr><td><strong>Árbol Digital Individual (S6)</strong></td><td>25%</td><td>Lógica, claridad y digitalización del Árbol de Decisión.</td></tr>
                             <tr><td><strong>Plantilla C (S7)</strong></td><td>15%</td><td>Ficha técnica del material principal.</td></tr>
                             <tr><td><strong>Test Sorpresa (S8)</strong></td><td>15%</td><td>Resolución práctica usando el árbol propio.</td></tr>
