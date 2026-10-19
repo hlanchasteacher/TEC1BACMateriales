@@ -1,1 +1,543 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto: Sistema Experto de Materiales - 1º Bachillerato</title>
+    <style>
+        :root {
+            --primary-color: #1e3a8a; /* Azul oscuro tecnología */
+            --secondary-color: #3b82f6; /* Azul brillante */
+            --accent-color: #f59e0b; /* Naranja para alertas individuales */
+            --bg-color: #f3f4f6;
+            --text-color: #1f2937;
+            --card-bg: #ffffff;
+            --group-color: #10b981; /* Verde para grupal */
+        }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Barra de Progreso Superior */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background-color: #e5e7eb;
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--accent-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Cabecera */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-top: 6px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Layout Principal */
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            gap: 2rem;
+            flex: 1;
+        }
+
+        /* Menú de Navegación Lateral */
+        nav.sidebar {
+            width: 250px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 2rem;
+            height: calc(100vh - 4rem);
+            overflow-y: auto;
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        nav.sidebar h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--bg-color);
+            padding-bottom: 0.5rem;
+        }
+
+        nav.sidebar ul {
+            list-style: none;
+        }
+
+        nav.sidebar li {
+            margin-bottom: 0.5rem;
+        }
+
+        nav.sidebar a {
+            text-decoration: none;
+            color: var(--text-color);
+            display: block;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: background 0.2s;
+            font-weight: 500;
+        }
+
+        nav.sidebar a:hover {
+            background-color: var(--bg-color);
+            color: var(--secondary-color);
+        }
+
+        /* Contenido Principal */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        section {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            scroll-margin-top: 2rem;
+        }
+
+        section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--bg-color);
+            padding-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .badge {
+            font-size: 0.8rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .badge-individual { background-color: var(--accent-color); }
+        .badge-grupal { background-color: var(--group-color); }
+
+        /* Tarjetas de Tareas */
+        .task-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .task-list li {
+            background: var(--bg-color);
+            margin-bottom: 0.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .task-list input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 0.2rem;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+
+        .task-list label {
+            cursor: pointer;
+            flex: 1;
+            line-height: 1.5;
+        }
+
+        .task-list input:checked + label {
+            text-decoration: line-through;
+            color: #9ca3af;
+        }
+
+        .highlight {
+            background-color: #fffbeb;
+            border-left: 4px solid var(--accent-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .highlight strong { color: #b45309; }
+
+        /* Botones */
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            margin-top: 0.5rem;
+            transition: background 0.2s;
+        }
+        
+        .btn:hover { background-color: var(--primary-color); }
+
+        /* Tabla Rúbrica */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        th { background-color: var(--bg-color); color: var(--primary-color); }
+
+        /* Responsivo */
+        @media (max-width: 900px) {
+            .container { flex-direction: column; padding: 1rem; }
+            nav.sidebar { width: 100%; position: static; height: auto; margin-bottom: 1rem; }
+            header h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Barra de progreso -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <header>
+        <h1>🛠️ El Sistema Experto de Materiales</h1>
+        <p>Proyecto de I+D+i - Tecnología e Ingeniería I (1º Bachillerato)</p>
+    </header>
+
+    <div class="container">
+        <!-- Navegación Lateral -->
+        <nav class="sidebar">
+            <h3>Índice del Proyecto</h3>
+            <ul>
+                <li><a href="#inicio">🏠 Inicio y Equipos</a></li>
+                <li><a href="#sesion1">📅 Sesión 1: Reto</a></li>
+                <li><a href="#sesion2">🧪 Sesión 2: Análisis</a></li>
+                <li><a href="#sesion3">⚙️ Sesión 3: Factores</a></li>
+                <li><a href="#sesion4">🌳 Sesión 4: Borrador</a></li>
+                <li><a href="#sesion5">💻 Sesión 5: Digitalización</a></li>
+                <li><a href="#sesion6">📚 Sesión 6: Catálogo</a></li>
+                <li><a href="#sesion7">🕵️‍♂️ Sesión 7: Test</a></li>
+                <li><a href="#sesion8">🎤 Sesión 8: Defensa</a></li>
+                <li><a href="#recursos" style="color: var(--secondary-color); font-weight: bold;">📖 RECURSOS Y ENLACES</a></li>
+                <li><a href="#rubrica">📝 Rúbrica de Notas</a></li>
+            </ul>
+        </nav>
+
+        <!-- Contenido Principal -->
+        <main>
+            <!-- INICIO -->
+            <section id="inicio">
+                <h2>Bienvenidos a la División de I+D+i</h2>
+                <p>Vuestra misión como equipo de ingeniería es crear un <strong>Sistema Experto (un Árbol de Decisión)</strong> que permita a otros diseñadores elegir el material perfecto para sus productos. Un error en la elección del material puede hundir un proyecto.</p>
+                
+                <div class="highlight">
+                    <strong>Instrucciones iniciales:</strong>
+                    <ul>
+                        <li>Formad grupos de 3-4 personas.</li>
+                        <li>Elegid un Sector Industrial: Aeroespacial, Deportivo, Doméstico, Sanitario o Construcción.</li>
+                        <li>Descargad y rellenad vuestro Contrato de Equipo: <a href="#" class="btn" target="_blank">[Enlace al Contrato en Google Docs]</a></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- SESIÓN 1 -->
+            <section id="sesion1">
+                <h2>Sesión 1: El Reto y Lluvia de Ideas <span class="badge badge-grupal">👥 Grupal</span></h2>
+                <p>Hoy definimos el alcance del proyecto.</p>
+                <ul class="task-list">
+                    <li>
+                        <input type="checkbox" id="t1-1" class="task-checkbox">
+                        <label for="t1-1"><strong>Brainstorming:</strong> Haced una lista de 10 productos reales de vuestro sector industrial.</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="t1-2" class="task-checkbox">
+                        <label for="t1-2"><strong>Reparto:</strong> Asignad a cada miembro del equipo UN producto diferente de la lista para analizarlo individualmente en la próxima sesión.</label>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- SESIÓN 2 -->
+            <section id="sesion2">
+                <h2>Sesión 2: Análisis de Producto <span class="badge badge-individual">👤 Individual</span></h2>
+                <p>¡Atención! Esta parte se evalúa de forma individual.</p>
+                <ul class="task-list">
+                    <li>
+                        <input type="checkbox" id="t2-1" class="task-checkbox">
+                        <label for="t2-1"><strong>Investigación:</strong> Coge el producto que te ha tocado. Mira de qué material está hecho actualmente.</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="t2-2" class="task-checkbox">
+                        <label for="t2-2"><strong>Propiedades:</strong> Rellena la Plantilla A indicando qué propiedades mecánicas (dureza, tenacidad) y físico-químicas necesita tu producto. Consulta las pág. 41-43 de tu libro.</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="t2-3" class="task-checkbox">
+                        <label for="t2-3"><strong>Entrega:</strong> Sube la Plantilla A al aula virtual con tu nombre.</label>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- SESIÓN 3 -->
+            <section id="sesion3">
+                <h2>Sesión 3: Los 8 Filtros de Selección <span class="badge badge-individual">👤 Individual</span></h2>
+                <p>Basándote en los <strong>8 Factores de Selección (Pág. 55 del libro)</strong>, vas a analizar tu producto.</p>
+                <ul class="task-list">
+                    <li>
+                        <input type="checkbox" id="t3-1" class="task-checkbox">
+                        <label for="t3-1">Rellena la Plantilla B respondiendo a los factores: Físicos, Mecánicos, Procesado, Tiempo, Económicos, Legales, Impacto Ambiental y Otros (color, textura).</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="t3-2" class="task-checkbox">
+                        <label for="t3-2"><strong>Entrega:</strong> Sube la Plantilla B al aula virtual.</label>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- SESIÓN 4 -->
+            <section id="sesion4">
+                <h2>Sesión 4: El Plano del Laberinto <span class="badge badge-grupal">👥 Grupal</span> + <span class="badge badge-individual">👤</span></h2>
+                <p>Vais a empezar a diseñar el Árbol de Decisión.</p>
+                <ul class="task-list">
+                    <li>
+                        <input type="checkbox" id="t4-1" class="task-checkbox">
+                        <label for="t4-1"><strong>Puesta en común:</strong> Juntad todos los productos analizados. Diseñad un árbol con preguntas cerradas (Sí/No) o de opción múltiple.</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="t4-2" class="task-checkbox">
+                        <label for="t4-2"><strong>Entrega Individual:</strong> El grupo se reparte las ramas. Cada alumno dibuja la rama de la que es responsable (foto) y la sube al aula virtual.</label>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- SESIÓN 5 -->
+            <section id="sesion5">
+                <h2>Sesión 5: Digitalización <span class="badge badge-grupal">👥 Grupal</span></h2>
+                <p>Pasamos el borrador al ordenador.</p>
+                <ul class="task-list">
+                    <li>
+                        <input type="checkbox" id="t5-1" class="task-checkbox">
+                        <label for="t5-1">Abrid <strong>Dia Diagram Editor</strong> o <strong>Draw.io</strong> (enlaces en Recursos).</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="t5-2" class="task-checkbox">
+                        <label for="t5-2">Pasad vuestro árbol. Usad los símbolos de diagrama de flujo (Inicio, Proceso, Decisión, Fin). Las cajas finales deben llevar al nombre del material (Acero, PLA, Fibra de carbono...).</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="t5-3" class="task-checkbox">
+                        <label for="t5-3"><strong>Entrega Grupal:</strong> Exportad a PDF o PNG y subidlo al aula virtual.</label>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- SESIÓN 6 -->
+            <section id="sesion6">
+                <h2>Sesión 6: El Catálogo Técnico <span class="badge badge-individual">👤 Individual</span></h2>
+                <p>Para que el Árbol sea útil, necesitamos fichas de los materiales.</p>
+                <ul class="task-list">
+                    <li>
+                        <input type="checkbox" id="t6-1" class="task-checkbox">
+                        <label for="t6-1"><strong>Reparto:</strong> El grupo elige los 5 materiales más importantes de su árbol. Cada miembro elige UNO.</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="t6-2" class="task-checkbox">
+                        <label for="t6-2">Rellena la Plantilla C (Ficha Técnica) con: Nombre, Familia, Propiedades, Impacto Ambiental y 3 usos.</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="t6-3" class="task-checkbox">
+                        <label for="t6-3"><strong>Entrega Individual:</strong> Sube tu ficha al aula virtual.</label>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- SESIÓN 7 -->
+            <section id="sesion7">
+                <h2>Sesión 7: El Test del Sistema Experto <span class="badge badge-individual">👤 EVALUACIÓN</span></h2>
+                <div class="highlight">
+                    <strong>¡ATENCIÓN! Esta prueba es individual y cuenta para la nota final.</strong>
+                </div>
+                <ul class="task-list">
+                    <li>
+                        <input type="checkbox" id="t7-1" class="task-checkbox">
+                        <label for="t7-1">Abre la imagen del Árbol de Decisión de tu grupo.</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="t7-2" class="task-checkbox">
+                        <label for="t7-2">El profesor te dará un <strong>"Producto Sorpresa"</strong> (que no habéis analizado).</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="t7-3" class="task-checkbox">
+                        <label for="t7-3">En un documento, escribe el camino SÍ/NO que sigues, el material al que llegas y una reflexión: ¿Tiene sentido ese material? ¿Hay un fallo en el árbol?</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="t7-4" class="task-checkbox">
+                        <label for="t7-4"><strong>Entrega Individual:</strong> Sube el documento. No puedes preguntar a tus compañeros.</label>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- SESIÓN 8 -->
+            <section id="sesion8">
+                <h2>Sesión 8: Defensa y Feedback <span class="badge badge-grupal">👥 Grupal</span> + <span class="badge badge-individual">👤</span></h2>
+                <ul class="task-list">
+                    <li>
+                        <input type="checkbox" id="t8-1" class="task-checkbox">
+                        <label for="t8-1"><strong>Presentación (5 min):</strong> Mostrad vuestro árbol al resto de la clase y defended por qué es el mejor sistema.</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="t8-2" class="task-checkbox">
+                        <label for="t8-2"><strong>Entrevista Individual (3 min):</strong> El profesor os llamará de uno en uno para haceros preguntas técnicas sobre vuestro trabajo.</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="t8-3" class="task-checkbox">
+                        <label for="t8-3"><strong>Coevaluación:</strong> Rellena la plantilla de evaluación de tus compañeros (valorando su implicación).</label>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- RECURSOS -->
+            <section id="recursos">
+                <h2>📖 Recursos y Herramientas</h2>
+                <p>Aquí tienes todo lo que necesitas. <strong>¡No preguntes al profesor sin haber mirado aquí primero!</strong></p>
+                <ul>
+                    <li style="margin-bottom: 1rem;">
+                        📄 <strong>Apuntes del libro:</strong> <a href="#" target="_blank">[Enlace al PDF de las páginas 40-55]</a>
+                    </li>
+                    <li style="margin-bottom: 1rem;">
+                        💻 <strong>Herramientas de diseño:</strong> <a href="https://www.diagrams.net/" target="_blank">Draw.io (Recomendado)</a> o <a href="http://dia-installer.de/" target="_blank">Dia Diagram Editor</a>.
+                    </li>
+                    <li style="margin-bottom: 1rem;">
+                        📊 <strong>Plantillas:</strong> 
+                        <br><a href="#" class="btn" target="_blank">Plantilla A (Análisis Producto)</a>
+                        <br><a href="#" class="btn" target="_blank">Plantilla B (8 Factores)</a>
+                        <br><a href="#" class="btn" target="_blank">Plantilla C (Ficha Técnica)</a>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- RÚBRICA -->
+            <section id="rubrica">
+                <h2>📝 Rúbrica de Evaluación</h2>
+                <p>Así se calculará tu nota. ¡No hay sorpresas!</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parte</th>
+                            <th>Porcentaje</th>
+                            <th>¿Qué se evalúa?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Nota Grupal</strong></td>
+                            <td>40%</td>
+                            <td>Calidad del Árbol digitalizado, lógica del sistema y presentación oral.</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="5"><strong>Nota Individual</strong></td>
+                            <td>60%</td>
+                            <td>Se divide en las siguientes entregas:</td>
+                        </tr>
+                        <tr>
+                            <td>15%</td>
+                            <td>Plantilla A (Análisis de producto)</td>
+                        </tr>
+                        <tr>
+                            <td>15%</td>
+                            <td>Plantilla B (8 factores)</td>
+                        </tr>
+                        <tr>
+                            <td>15%</td>
+                            <td>Rama del árbol dibujada + Ficha Técnica del material</td>
+                        </tr>
+                        <tr>
+                            <td>15%</td>
+                            <td>Prueba de Validación (Producto Sorpresa)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="background-color: #fef2f2; color: #991b1b;">
+                                <strong>⚠️ Factor Correctivo:</strong> Si la media de coevaluación de tus compañeros es inferior a 3/5 (porque no has trabajado), tu nota final se multiplicará por 0,8.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Lógica para la barra de progreso y guardar estado en el navegador
+        const checkboxes = document.querySelectorAll('.task-checkbox');
+        const progressBar = document.getElementById('progressBar');
+
+        // Cargar estado guardado
+        checkboxes.forEach((checkbox, index) => {
+            const isChecked = localStorage.getItem('task-' + index) === 'true';
+            checkbox.checked = isChecked;
+        });
+
+        function updateProgress() {
+            const total = checkboxes.length;
+            const checked = document.querySelectorAll('.task-checkbox:checked').length;
+            const percentage = (checked / total) * 100;
+            progressBar.style.width = percentage + '%';
+        }
+
+        // Escuchar cambios en las casillas
+        checkboxes.forEach((checkbox, index) => {
+            checkbox.addEventListener('change', (e) => {
+                localStorage.setItem('task-' + index, e.target.checked);
+                updateProgress();
+            });
+        });
+
+        // Inicializar barra
+        updateProgress();
+    </script>
+</body>
+</html>
