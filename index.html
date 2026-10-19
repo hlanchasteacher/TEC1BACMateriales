@@ -105,7 +105,7 @@
             <ul>
                 <li><a onclick="showView('sesiones')" id="nav-sesiones" class="active">📅 Las 7 Sesiones</a></li>
                 <li><a href="apuntes.pdf" target="_blank">📖 Apuntes (Pág. 41-43) ↗</a></li>
-                <li><a onclick="showView('plantillas')" id="nav-plantillas">📥 Descargar Plantillas</a></li>
+                <li><a onclick="showView('plantillas')" id="nav-plantillas">📥 Plantillas de Trabajo</a></li>
             </ul>
             <div class="nav-divider"></div>
             <h3>Índice Rápido</h3>
@@ -154,7 +154,7 @@
                     <ul class="task-list">
                         <li>
                             <input type="checkbox" id="t2-1" class="task-checkbox">
-                            <label for="t2-1"><strong>Descarga:</strong> Ve a la pestaña "Descargar Plantillas" y hazte con la <strong>Plantilla A</strong>.</label>
+                            <label for="t2-1"><strong>Descarga:</strong> Ve a la pestaña "Plantillas de Trabajo" y genera tu <strong>Plantilla A</strong>.</label>
                         </li>
                         <li>
                             <input type="checkbox" id="t2-2" class="task-checkbox">
@@ -172,7 +172,7 @@
                     <ul class="task-list">
                         <li>
                             <input type="checkbox" id="t3-1" class="task-checkbox">
-                            <label for="t3-1">Descarga la <strong>Plantilla B</strong>, recréala en Word y responde a los 8 factores para tu producto.</label>
+                            <label for="t3-1">Genera la <strong>Plantilla B</strong>, recréala en Word y responde a los 8 factores para tu producto.</label>
                         </li>
                         <li>
                             <input type="checkbox" id="t3-2" class="task-checkbox">
@@ -216,7 +216,7 @@
                     <ul class="task-list">
                         <li>
                             <input type="checkbox" id="t6-1" class="task-checkbox">
-                            <label for="t6-1">Descarga la <strong>Plantilla C (Ficha Técnica)</strong>, recréala en Word y complétala para el material principal de tu producto.</label>
+                            <label for="t6-1">Genera la <strong>Plantilla C (Ficha Técnica)</strong>, recréala en Word y complétala para el material principal de tu producto.</label>
                         </li>
                     </ul>
                 </section>
@@ -252,12 +252,12 @@
                 </section>
             </div>
 
-            <!-- VISTA 2: PLANTILLAS DESCARGABLES -->
+            <!-- VISTA 2: PLANTILLAS (AHORA GENERADAS POR JS) -->
             <div id="view-plantillas" class="view-section">
                 <section>
-                    <h2>📥 Descarga de Plantillas</h2>
+                    <h2>📥 Generador de Plantillas</h2>
                     <p style="margin-bottom: 1rem; color: #64748b; font-size: 1.1rem;">
-                        Descarga los modelos en PDF. Tu tarea es abrirlos, <strong>recrear la estructura en Microsoft Word</strong> (o Google Docs) y completarlos digitalmente. Una vez terminados, expórtalos de nuevo a PDF y súbelos al aula virtual.
+                        Pulsa el botón de la plantilla que necesites. Se abrirá una ventana de impresión. <strong>Elige "Guardar como PDF" como destino de impresión.</strong> Luego, abre ese PDF y cópialo en Word/Docs para rellenarlo y entregarlo.
                     </p>
 
                     <div class="template-grid">
@@ -275,7 +275,7 @@
                                     <li>Breve justificación de su uso.</li>
                                 </ul>
                             </div>
-                            <a href="plantilla_A.pdf" download class="btn btn-download">⬇️ Descargar Plantilla A</a>
+                            <button onclick="generatePDF('A')" class="btn btn-download">🖨️ Generar PDF (Plantilla A)</button>
                         </div>
 
                         <!-- Tarjeta Plantilla B -->
@@ -290,7 +290,7 @@
                                     <li>Espacio para responder cómo afecta cada factor a tu producto.</li>
                                 </ul>
                             </div>
-                            <a href="plantilla_B.pdf" download class="btn btn-download">⬇️ Descargar Plantilla B</a>
+                            <button onclick="generatePDF('B')" class="btn btn-download">🖨️ Generar PDF (Plantilla B)</button>
                         </div>
 
                         <!-- Tarjeta Plantilla C -->
@@ -307,7 +307,7 @@
                                     <li>3 usos típicos en el sector.</li>
                                 </ul>
                             </div>
-                            <a href="plantilla_C.pdf" download class="btn btn-download">⬇️ Descargar Plantilla C</a>
+                            <button onclick="generatePDF('C')" class="btn btn-download">🖨️ Generar PDF (Plantilla C)</button>
                         </div>
                     </div>
                 </section>
@@ -320,37 +320,134 @@
         function showView(viewId) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('nav.sidebar a').forEach(el => el.classList.remove('active'));
-            
             document.getElementById('view-' + viewId).classList.add('active');
             document.getElementById('nav-' + viewId).classList.add('active');
-            
             window.scrollTo(0, 0);
         }
 
         // --- LÓGICA DE PROGRESO Y CHECKBOXES ---
         const checkboxes = document.querySelectorAll('.task-checkbox');
         const progressBar = document.getElementById('progressBar');
-
         checkboxes.forEach((checkbox, index) => {
             const isChecked = localStorage.getItem('task-' + index) === 'true';
             checkbox.checked = isChecked;
         });
-
         function updateProgress() {
             const total = checkboxes.length;
             const checked = document.querySelectorAll('.task-checkbox:checked').length;
-            const percentage = (checked / total) * 100;
-            progressBar.style.width = percentage + '%';
+            progressBar.style.width = (checked / total) * 100 + '%';
         }
-
         checkboxes.forEach((checkbox, index) => {
             checkbox.addEventListener('change', (e) => {
                 localStorage.setItem('task-' + index, e.target.checked);
                 updateProgress();
             });
         });
-
         updateProgress();
+
+        // --- GENERADOR DE PDFs (Impresión dinámica) ---
+        function generatePDF(type) {
+            // Creamos un iframe oculto para que no salten bloqueadores de ventanas emergentes
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+            
+            const doc = iframe.contentWindow.document;
+            
+            // CSS básico para que el PDF quede limpio
+            const style = `
+                <style>
+                    body { font-family: Arial, sans-serif; padding: 20px; color: #000; }
+                    h1 { text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; font-size: 20px;}
+                    .info p { margin: 15px 0; font-size: 14px; }
+                    .line { border-bottom: 1px solid #000; display: inline-block; width: 70%; }
+                    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+                    th, td { border: 1px solid #000; padding: 10px; text-align: left; vertical-align: top; font-size: 12px;}
+                    th { background-color: #f0f0f0; }
+                    .box { height: 100px; }
+                    .section { margin-top: 20px; }
+                    .section-title { font-weight: bold; background: #f0f0f0; padding: 5px; border: 1px solid #000; border-bottom: none; font-size: 14px;}
+                </style>
+            `;
+
+            let content = "";
+
+            if (type === 'A') {
+                content = `
+                    <h1>PLANTILLA A: Análisis de Producto</h1>
+                    <div class="info">
+                        <p><strong>Nombre del Alumno/a:</strong> <span class="line"></span></p>
+                        <p><strong>Producto asignado:</strong> <span class="line"></span></p>
+                        <p><strong>Material actual del producto:</strong> <span class="line"></span></p>
+                    </div>
+                    <table>
+                        <tr>
+                            <th style="width: 33%;">Propiedades Mecánicas</th>
+                            <th style="width: 33%;">Propiedades Físico-Químicas</th>
+                            <th style="width: 34%;">Propiedades Sensoriales</th>
+                        </tr>
+                        <tr><td class="box"></td><td class="box"></td><td class="box"></td></tr>
+                    </table>
+                    <br>
+                    <p><strong>Justificación breve:</strong> ¿Por qué el fabricante ha elegido ese material?</p>
+                    <div style="border: 1px solid #000; height: 80px;"></div>
+                `;
+            } else if (type === 'B') {
+                content = `
+                    <h1>PLANTILLA B: Los 8 Factores de Selección</h1>
+                    <div class="info">
+                        <p><strong>Nombre del Alumno/a:</strong> <span class="line"></span></p>
+                    </div>
+                    <table>
+                        <tr><th style="width: 30%;">Factor</th><th>Análisis para tu producto</th></tr>
+                        <tr><td><strong>1. Físicos</strong> (Tamaño, peso)</td><td class="box" style="height: 50px;"></td></tr>
+                        <tr><td><strong>2. Mecánicos</strong> (Esfuerzos)</td><td class="box" style="height: 50px;"></td></tr>
+                        <tr><td><strong>3. Procesado</strong> (Fabricación)</td><td class="box" style="height: 50px;"></td></tr>
+                        <tr><td><strong>4. Tiempo</strong> (Vida útil)</td><td class="box" style="height: 50px;"></td></tr>
+                        <tr><td><strong>5. Económicos</strong> (Coste)</td><td class="box" style="height: 50px;"></td></tr>
+                        <tr><td><strong>6. Legales</strong> (Normativas)</td><td class="box" style="height: 50px;"></td></tr>
+                        <tr><td><strong>7. Impacto Ambiental</strong></td><td class="box" style="height: 50px;"></td></tr>
+                        <tr><td><strong>8. Otros</strong> (Estética)</td><td class="box" style="height: 50px;"></td></tr>
+                    </table>
+                `;
+            } else if (type === 'C') {
+                content = `
+                    <h1>PLANTILLA C: Ficha Técnica de Material</h1>
+                    <div class="info">
+                        <p><strong>Nombre del Alumno/a:</strong> <span class="line"></span></p>
+                        <p><strong>Nombre del Material:</strong> <span class="line"></span></p>
+                        <p><strong>Familia:</strong> (Metálico, Cerámico, Polímero, Híbrido) <span class="line"></span></p>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">Propiedades Clave (Mecánicas y Físicas)</div>
+                        <div style="border: 1px solid #000; height: 80px;"></div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">Impacto Ambiental y Reciclaje</div>
+                        <div style="border: 1px solid #000; height: 80px;"></div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">3 Usos típicos en el sector industrial</div>
+                        <div style="border: 1px solid #000; height: 100px; padding: 10px;">
+                            1. <br><br> 2. <br><br> 3. 
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Escribimos el HTML en el iframe
+            doc.open();
+            doc.write(style + content);
+            doc.close();
+
+            // Esperamos un momento a que cargue y lanzamos la impresión
+            setTimeout(() => {
+                iframe.contentWindow.focus();
+                iframe.contentWindow.print();
+                // Eliminamos el iframe después de imprimir
+                setTimeout(() => document.body.removeChild(iframe), 1000);
+            }, 500);
+        }
     </script>
 </body>
 </html>
